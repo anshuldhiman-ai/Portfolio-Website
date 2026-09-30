@@ -1,0 +1,28 @@
+Anshul Dhiman
+AI/ML Engineering Student
+
+Focus
+- LLMs, Computer Vision, and MLOps
+- Building model workflows with practical deployment surfaces
+
+Selected Projects
+- LLM Fine-tuning Suite: QLoRA workflow for 7B-class models with dataset validation and Gradio inference.
+- Real-time Object Detection: YOLOv8, OpenCV, FastAPI, and React pipeline for webcam inference.
+- Stock Price Predictor: LSTM and sentiment-analysis experiment with baseline comparisons.
+- AI Image Generator: Diffusion playground with seeded runs, sampler controls, and Streamlit UI.
+
+Proof Points
+- State-level AI hackathon winner
+- 10+ AI/ML projects and experiments
+- Currently building a multi-agent RAG workflow for research tasks
+
+Skills
+- AI/ML: PyTorch, Transformers, Diffusers, TensorFlow, OpenCV, YOLOv8
+- Backend: FastAPI, Node.js, REST APIs, WebSockets, Python
+- Data: Pandas, NumPy, PostgreSQL, data validation, feature checks
+- Deployment: Docker, CI/CD basics, Hugging Face, Vercel, Render
+
+Links
+- GitHub: https://github.com/anshuldhiman-ai
+- LinkedIn: https://linkedin.com/in/anshul-dhiman-ai
+- Email: anshul.dhiman.ml@gmail.com
