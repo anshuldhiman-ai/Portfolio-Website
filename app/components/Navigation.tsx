@@ -9,12 +9,13 @@ const navItems = [
   { id: 'about', label: 'About' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
+  { id: 'blog', label: 'Notes' },
   { id: 'certificates', label: 'Certificates' },
   { id: 'contact', label: 'Contact' },
 ];
 
 const profileLinks = [
-  { label: 'Resume', href: '/Anshul_Dhiman_Resume.docx', icon: Download, download: true },
+  { label: 'Resume', href: '/Anshul_Dhiman_Resume.pdf', icon: Download, download: true },
   { label: 'GitHub', href: socials.github, icon: Github },
   { label: 'LinkedIn', href: socials.linkedin, icon: Linkedin },
 ];

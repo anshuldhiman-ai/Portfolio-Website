@@ -10,6 +10,14 @@ export interface Certificate {
 
 export const certificates: Certificate[] = [
   {
+    id: 'cert-ai-intro',
+    title: 'Introduction to Artificial Intelligence',
+    issuer: 'Infosys Springboard',
+    date: 'Mar 2026',
+    image: '/certificates/mooc.jpg',
+    description: 'Core concepts of Artificial Intelligence, neural networks, search algorithms, knowledge representation, and ML fundamentals.',
+  },
+  {
     id: 'cert-python-2',
     title: 'Programming Fundamentals using Python - Part 2',
     issuer: 'Infosys Springboard',
@@ -18,20 +26,12 @@ export const certificates: Certificate[] = [
     description: 'Advanced Python programming certification covering object-oriented concepts, data structures, and algorithmic logic.',
   },
   {
-    id: 'cert-python-1',
-    title: 'Programming Fundamentals using Python - Part 1',
-    issuer: 'Infosys Springboard',
-    date: 'Jul 2026',
-    image: '/certificates/python_1.png',
-    description: 'Foundational certification in Python control flow, functions, data types, and problem-solving.',
-  },
-  {
-    id: 'cert-ai-intro',
-    title: 'Introduction to Artificial Intelligence',
-    issuer: 'Infosys Springboard',
-    date: 'Mar 2026',
-    image: '/certificates/mooc.jpg',
-    description: 'Core concepts of Artificial Intelligence, search algorithms, knowledge representation, and ML fundamentals.',
+    id: 'cert-academic-2',
+    title: 'Academic & Technical Specialization Credentials',
+    issuer: 'Lovely Professional University',
+    date: '2026',
+    image: '/certificates/academic_cert_2.png',
+    description: 'Official academic specialization credentials and course achievements in B.Tech CSE (AI & ML).',
   },
   {
     id: 'cert-cs105-saylor',
@@ -42,19 +42,11 @@ export const certificates: Certificate[] = [
     description: 'Comprehensive computer science course certification covering Python programming syntax and core paradigms.',
   },
   {
-    id: 'cert-leadership',
-    title: 'Leadership Fundamentals',
-    issuer: 'EduTech Hub',
-    date: 'Oct 2025',
-    image: '/certificates/leadership_fundamentals.png',
-    description: 'Professional development certificate in leadership principles, teamwork, communication, and adaptability.',
-  },
-  {
-    id: 'cert-academic-2',
-    title: 'Academic & Technical Specialization Credentials',
-    issuer: 'Lovely Professional University',
-    date: '2026',
-    image: '/certificates/academic_cert_2.png',
-    description: 'Official academic specialization credentials and course achievements in CSE (AI & ML).',
+    id: 'cert-python-1',
+    title: 'Programming Fundamentals using Python - Part 1',
+    issuer: 'Infosys Springboard',
+    date: 'Jul 2026',
+    image: '/certificates/python_1.png',
+    description: 'Foundational certification in Python control flow, functions, data types, and problem-solving.',
   },
 ];

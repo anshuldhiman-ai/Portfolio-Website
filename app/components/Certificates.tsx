@@ -10,6 +10,7 @@ export default function Certificates() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [paused, setPaused] = useState(false);
   const [active, setActive] = useState<Certificate | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -31,8 +32,10 @@ export default function Certificates() {
     return () => window.removeEventListener('keydown', onKey);
   }, [active]);
 
+  // Show top 4 certificates by default, all when expanded
+  const displayedCertificates = showAll ? certificates : certificates.slice(0, 4);
   // Duplicate list for seamless infinite looping marquee
-  const loopedCertificates = [...certificates, ...certificates];
+  const loopedCertificates = [...displayedCertificates, ...displayedCertificates];
 
   return (
     <section id="certificates" className="px-6 py-28" ref={sectionRef}>
@@ -67,33 +70,47 @@ export default function Certificates() {
             Certificates coming soon.
           </div>
         ) : (
-          <div
-            className="relative overflow-hidden py-2"
-            style={{
-              maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-            }}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocusCapture={() => setPaused(true)}
-            onBlurCapture={() => setPaused(false)}
-          >
+          <>
             <div
-              className="flex w-max gap-6"
+              className="relative overflow-hidden py-2"
               style={{
-                animation: `cert-marquee ${Math.max(24, certificates.length * 8)}s linear infinite`,
-                animationPlayState: paused ? 'paused' : 'running',
+                maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
               }}
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onFocusCapture={() => setPaused(true)}
+              onBlurCapture={() => setPaused(false)}
             >
-              {loopedCertificates.map((cert, index) => (
-                <CertCard
-                  key={`${cert.id}-${index}`}
-                  cert={cert}
-                  onOpen={() => setActive(cert)}
-                />
-              ))}
+              <div
+                className="flex w-max gap-6"
+                style={{
+                  animation: `cert-marquee ${Math.max(24, displayedCertificates.length * 8)}s linear infinite`,
+                  animationPlayState: paused ? 'paused' : 'running',
+                }}
+              >
+                {loopedCertificates.map((cert, index) => (
+                  <CertCard
+                    key={`${cert.id}-${index}`}
+                    cert={cert}
+                    onOpen={() => setActive(cert)}
+                    aria-hidden={index >= displayedCertificates.length}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+
+            {certificates.length > 4 && (
+              <div className="mt-6 text-center">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/12 px-6 py-2.5 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-white/20"
+                >
+                  {showAll ? 'Show Less' : `View All (${certificates.length})`}
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -102,13 +119,22 @@ export default function Certificates() {
   );
 }
 
-function CertCard({ cert, onOpen }: { cert: Certificate; onOpen: () => void }) {
+function CertCard({ cert, onOpen, ariaHidden }: { cert: Certificate; onOpen: () => void; ariaHidden?: boolean }) {
   return (
     <motion.div
       whileHover={{ y: -6, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-      className="group relative flex w-[310px] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl transition-all duration-300 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer"
+      className="group relative flex w-[310px] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl transition-all duration-300 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400/50"
       onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      aria-hidden={ariaHidden ? 'true' : undefined}
+      tabIndex={ariaHidden ? -1 : 0}
+      role="button"
     >
       {/* Certificate Image Preview */}
       <div className="relative h-44 w-full overflow-hidden bg-black/50 border-b border-white/[0.06]">

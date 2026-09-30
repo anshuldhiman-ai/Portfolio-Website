@@ -7,28 +7,34 @@ import { GraduationCap, MapPin } from 'lucide-react';
 
 const timeline = [
   {
-    year: '2026',
-    event: '2nd Year B.Tech CSE (AI & ML) — CGPA: 6.73; built Batua (AI Finance), Currency Counter (OpenCV) & FormatFlow; deep-diving into Data Structures & Algorithms',
+    year: 'Late 2026',
+    event: 'Built & Deployed NeuralRAG: multi-stage vector search with BGE re-ranking and Ragas automated evaluation benchmark',
     marker: '2026',
     color: '#34D399',
   },
   {
+    year: 'Mid 2026',
+    event: 'Shipped Currency Counter with custom YOLOv8 model (1.45k dataset, 98.4% mAP@0.5) and hardware-aware ONNX Runtime pipeline',
+    marker: '2026',
+    color: '#38BDF8',
+  },
+  {
+    year: 'Early 2026',
+    event: 'Developed Batua: local-first finance manager with MongoDB → SQLite dual-database failover and offline Llama 3.2 assistant',
+    marker: '2026',
+    color: '#A78BFA',
+  },
+  {
     year: '2025',
-    event: 'Enrolled in B.Tech CSE (AI & ML) at Lovely Professional University, Phagwara; completed Intermediate (Class XII: 61%) at Montessori Cambridge School',
+    event: 'Enrolled in B.Tech CSE (AI & ML) at Lovely Professional University; built foundational computer vision and deep learning pipelines',
     marker: '2025',
     color: '#FBBF24',
   },
   {
     year: '2024',
-    event: 'Built foundational programming skills in Python, C, and Web Development; prepared for university engineering degree',
+    event: 'Built first OpenCV image processing scripts and algorithms in Python & C++, starting hands-on software development journey',
     marker: '2024',
-    color: '#A78BFA',
-  },
-  {
-    year: '2023',
-    event: 'Completed Matriculation (Class X: 84.67%) at Montessori Cambridge School, Pathankot; discovered lifelong passion for computer science and technology',
-    marker: '2023',
-    color: '#60A5FA',
+    color: '#F472B6',
   },
 ];
 
@@ -38,43 +44,39 @@ const education = [
     location: 'Phagwara, Punjab',
     degree: 'B.Tech – CSE (AI & ML)',
     period: '2025 – Present',
-    score: 'CGPA: 6.73',
-    highlight: '2nd Year',
+    highlight: '2nd Year Student',
     badgeColor: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-300',
   },
   {
     institution: 'Montessori Cambridge School',
     location: 'Pathankot, Punjab',
-    degree: 'Intermediate (Class XII)',
-    period: '2024 – 2025',
-    score: 'Percentage: 61%',
-    highlight: 'Class XII',
+    degree: 'Senior Secondary (Class XII)',
+    period: '2023 – 2025',
+    highlight: 'Non-Medical (CS)',
     badgeColor: 'border-purple-400/30 bg-purple-400/10 text-purple-300',
   },
   {
     institution: 'Montessori Cambridge School',
     location: 'Pathankot, Punjab',
-    degree: 'Matriculation (Class X)',
+    degree: 'Secondary School (Class X)',
     period: '2022 – 2023',
-    score: 'Percentage: 84.67%',
-    highlight: 'Class X',
+    highlight: 'Matriculation',
     badgeColor: 'border-cyan-400/30 bg-cyan-400/10 text-cyan-300',
   },
 ];
 
 const highlights = [
-  { label: 'Origin', value: 'Hamirpur, HP', glow: '#a78bfa' },
-  { label: 'Degree', value: 'B.Tech CSE (AI & ML) @ LPU', glow: '#22d3ee' },
-  { label: 'Status', value: '2nd Year | 6.73 CGPA', glow: '#34d399' },
-  { label: 'Hobbies', value: 'New Tech & Chess', glow: '#f59e0b' },
+  { label: 'Location', value: 'LPU Phagwara / HP', glow: '#a78bfa' },
+  { label: 'Degree', value: 'B.Tech CSE (AI & ML)', glow: '#22d3ee' },
+  { label: 'Specialization', value: 'Vision & Systems', glow: '#34d399' },
+  { label: 'Target', value: 'ML Engineering', glow: '#f59e0b' },
 ];
 
 const proof = [
-  'Originally from Hamirpur, Himachal Pradesh',
-  'Pursuing B.Tech CSE (AI & ML) at Lovely Professional University, Phagwara',
-  'Goal: Machine Learning (ML) Engineer | Focus: Data Structures & Algorithms (DSA)',
-  'Projects: Batua (Local AI Finance), Currency Counter (OpenCV YOLOv8), FormatFlow',
-  'Proficient in Python, C, C++, SQL, HTML/CSS, JavaScript, React, FastAPI & Docker',
+  'Goal: Machine Learning & Computer Vision Engineer',
+  'Primary Focus: YOLOv8, OpenCV, ONNX Runtime, PyTorch, RAG Pipelines',
+  'Engineering Approach: Learning by building real, benchmarked software',
+  'Available for Summer 2026 ML & Systems Internships',
 ];
 
 export default function About() {
@@ -193,7 +195,6 @@ export default function About() {
                   <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider ${edu.badgeColor}`}>
                     {edu.highlight}
                   </span>
-                  <span className="text-xs text-white/50">{edu.period}</span>
                 </div>
                 <h4 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors">
                   {edu.degree}
@@ -208,9 +209,8 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="mt-6 border-t border-white/[0.06] pt-3 flex items-center justify-between text-xs">
-                <span className="text-white/45">Academic Score:</span>
-                <span className="font-semibold text-emerald-300">{edu.score}</span>
+              <div className="mt-6 border-t border-white/[0.06] pt-3 text-xs text-white/45">
+                {edu.period}
               </div>
             </motion.div>
           ))}

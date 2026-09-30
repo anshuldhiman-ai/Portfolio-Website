@@ -261,7 +261,7 @@ function ProjectPreview({ project, colorIndex, large = false }: { project: Proje
       </div>
 
       {project.artifact.type === 'dashboard' && <DashboardPreview accent={colors.accent} items={project.artifact.items ?? []} />}
-      {project.artifact.type === 'architecture' && <ArchitecturePreview accent={colors.accent} />}
+      {project.artifact.type === 'architecture' && <ArchitecturePreview projectId={project.id} accent={colors.accent} />}
     </div>
   );
 }
@@ -289,15 +289,32 @@ function DashboardPreview({ accent, items }: { accent: string; items: string[] }
   );
 }
 
-function ArchitecturePreview({ accent }: { accent: string }) {
+const projectArchitectures: Record<string, string[]> = {
+  'currency-counter': ['Webcam Feed', 'OpenCV Preprocess', 'YOLOv8 ONNX', 'IoU Temporal Tracker', 'Verified Count'],
+  'neural-rag': ['User Query', 'Qdrant Vector DB', 'BGE Reranker', 'Llama 3.2 LLM', 'Ragas Score'],
+  'batua': ['Natural Input', 'NLP Parser', 'Ollama + ML', 'MongoDB Primary', 'SQLite Failover'],
+  'format-flow': ['Raw Document', 'Flask Engine', 'PyMuPDF → docx', 'LibreOffice Fallback', 'ZIP Packaging'],
+};
+
+function ArchitecturePreview({ projectId, accent }: { projectId: string; accent: string }) {
+  const steps = projectArchitectures[projectId] ?? ['Input', 'Model', 'Pipeline', 'Output'];
+
   return (
-    <div className="flex h-[calc(100%-32px)] items-center justify-between gap-3">
-      {['Farmer', 'Gemini', 'Weather', 'Advice'].map((item, i) => (
-        <div key={item} className="flex flex-1 items-center gap-3">
-          <div className="flex h-20 flex-1 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.04] text-xs font-medium text-white/75" style={{ boxShadow: i === 2 ? `0 0 30px ${accent}22` : undefined }}>
-            {item}
+    <div className="flex h-[calc(100%-32px)] items-center justify-between gap-2 overflow-x-auto py-1">
+      {steps.map((step, i) => (
+        <div key={step} className="flex flex-1 items-center gap-2 min-w-0">
+          <div
+            className="flex h-16 flex-1 items-center justify-center text-center rounded-xl border border-white/[0.09] bg-black/40 px-2 py-1 text-[11px] font-medium leading-tight text-white/85 shadow-sm transition-all"
+            style={{
+              borderColor: i === steps.length - 1 ? `${accent}80` : undefined,
+              boxShadow: i === steps.length - 1 ? `0 0 20px ${accent}25` : undefined,
+            }}
+          >
+            {step}
           </div>
-          {i < 3 && <div className="h-px w-5 shrink-0" style={{ backgroundColor: accent }} />}
+          {i < steps.length - 1 && (
+            <div className="h-0.5 w-3 shrink-0 rounded-full" style={{ backgroundColor: `${accent}99` }} />
+          )}
         </div>
       ))}
     </div>

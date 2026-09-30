@@ -26,11 +26,15 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={mounted ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="mb-6"
+            className="mb-6 flex flex-wrap gap-3 items-center"
           >
-            <span className="font-tech inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-white/70">
+            <span className="font-tech inline-flex items-center gap-2 rounded-full border border-purple-400/25 bg-purple-400/10 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-purple-200">
               <Sparkles className="h-3 w-3 text-cyan-300" />
               AI / ML Engineering Student
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3.5 py-1.5 text-xs font-medium text-emerald-300 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              Open for Summer 2026 Internships
             </span>
           </motion.div>
 
@@ -52,7 +56,7 @@ export default function Hero() {
             transition={{ duration: 0.45, delay: 0.25 }}
             className="mb-5 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl"
           >
-            2nd-year B.Tech CSE (AI & ML) student at LPU, Phagwara — originally from Hamirpur, Himachal Pradesh. I love building practical solutions for myself and people around me, learning by implementing real-life projects to understand them deeply.
+            2nd-year B.Tech CSE (AI & ML) student at LPU. Building hardware-accelerated vision models, evaluated RAG systems, and local-first AI software.
           </motion.p>
 
           <motion.div
@@ -62,16 +66,12 @@ export default function Hero() {
             className="mb-10 space-y-2.5 text-sm text-white/68 sm:text-base"
           >
             <div className="flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
-              <span className="text-white/85">B.Tech CSE (AI & ML) @ LPU Phagwara (CGPA: 6.73)</span>
-            </div>
-            <div className="flex items-center gap-3">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
-              <span>Projects: Batua (AI Finance), Currency Counter (OpenCV), FormatFlow</span>
+              <span className="text-white/85">Real-time Computer Vision (YOLOv8, OpenCV, ONNX) & Evaluated RAG</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="h-1.5 w-1.5 rounded-full bg-purple-300" />
-              <span>Focus: Data Structures & Algorithms (DSA) | Target: ML Engineer</span>
+              <span>Target Role: Machine Learning Engineer & Systems Developer</span>
             </div>
           </motion.div>
 
@@ -88,12 +88,13 @@ export default function Hero() {
               See Projects
             </button>
             <a
-              href="/Anshul_Dhiman_Resume.docx"
-              download
+              href="/Anshul_Dhiman_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 px-7 py-3 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white focus-visible:ring-2 focus-visible:ring-white/20"
             >
               <Download className="h-4 w-4" />
-              Resume
+              Resume (PDF)
             </a>
             <div className="flex items-center gap-2">
               {[

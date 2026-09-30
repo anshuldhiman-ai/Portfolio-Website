@@ -48,33 +48,42 @@ export default function Contact() {
       return;
     }
 
-    // No backend key configured — fall back to the visitor's email client,
-    // with honest copy since mailto can silently do nothing.
-    if (!WEB3FORMS_KEY) {
-      const subject = encodeURIComponent(`Hi Anshul — from ${formData.name}`);
-      const body = encodeURIComponent(
-        `Hey Anshul,\n\n${formData.message}\n\nBest,\n${formData.name}\n${formData.email}`
-      );
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      setStatus('mailto');
-      return;
-    }
-
     setStatus('sending');
+
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `Portfolio message from ${formData.name}`,
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        }),
-      });
-      const json = await res.json();
-      setStatus(json.success ? 'sent' : 'error');
+      if (WEB3FORMS_KEY) {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `Portfolio message from ${formData.name}`,
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          }),
+        });
+        const json = await res.json();
+        setStatus(json.success ? 'sent' : 'error');
+      } else {
+        // Fallback to FormSubmit AJAX endpoint — direct email delivery to anshul.dhiman.ml@gmail.com without API key
+        const res = await fetch('https://formsubmit.co/ajax/anshul.dhiman.ml@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            _subject: `Portfolio Message from ${formData.name}`,
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          }),
+        });
+        const json = await res.json();
+        if (json.success === 'true' || json.success === true || res.ok) {
+          setStatus('sent');
+        } else {
+          setStatus('error');
+        }
+      }
     } catch {
       setStatus('error');
     }
@@ -283,9 +292,7 @@ export default function Contact() {
                   </button>
 
                   <p className="text-center text-xs text-white/40">
-                    {WEB3FORMS_KEY
-                      ? 'Delivered straight to my inbox'
-                      : 'Opens your email client with the message pre-filled'}
+                    Delivered directly to my inbox
                   </p>
                 </motion.form>
               )}
