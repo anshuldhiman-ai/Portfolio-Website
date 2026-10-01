@@ -94,7 +94,6 @@ export default function Projects() {
               className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/[0.08] bg-[#141416] shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={`h-[3px] bg-gradient-to-r ${projectColors[selectedProject.colorIndex % 4].gradient}`} />
               <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-5">
                 <div>
                   <div className="mb-1 text-xs uppercase tracking-widest text-white/40">{selectedProject.project.artifact.label}</div>

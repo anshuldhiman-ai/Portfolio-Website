@@ -206,8 +206,6 @@ function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () =>
             className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="h-[3px] bg-gradient-to-r from-emerald-300 via-cyan-200 to-purple-300" />
-
             <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-5">
               <div>
                 <div className="mb-1 flex items-center gap-2 text-xs uppercase tracking-widest text-emerald-300">

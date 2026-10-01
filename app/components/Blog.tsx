@@ -124,8 +124,6 @@ export default function Blog() {
               className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="h-[3px] bg-gradient-to-r from-cyan-300 via-purple-300 to-emerald-300" />
-
               <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-5">
                 <div>
                   <div className="mb-1 flex items-center gap-3 text-xs uppercase tracking-widest text-cyan-300">
