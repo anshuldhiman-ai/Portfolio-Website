@@ -2,40 +2,48 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Award, Calendar, ExternalLink, X, Maximize2 } from 'lucide-react';
+import { Award, Calendar, ExternalLink, X, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { certificates, type Certificate } from '../data/certificates';
 
 export default function Certificates() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [paused, setPaused] = useState(false);
-  const [active, setActive] = useState<Certificate | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (active) {
+    if (activeIndex !== null) {
       document.body.style.overflow = 'hidden';
       return () => {
         document.body.style.overflow = '';
       };
     }
-  }, [active]);
+  }, [activeIndex]);
 
-  // Close modal on Escape
+  // Close modal on Escape and handle arrow navigation
   useEffect(() => {
-    if (!active) return;
+    if (activeIndex === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActive(null);
+      if (e.key === 'Escape') setActiveIndex(null);
+      if (e.key === 'ArrowLeft') {
+        setActiveIndex((prev) => prev === null ? null : (prev - 1 + certificates.length) % certificates.length);
+      }
+      if (e.key === 'ArrowRight') {
+        setActiveIndex((prev) => prev === null ? null : (prev + 1) % certificates.length);
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [active]);
+  }, [activeIndex]);
 
   // Show top 4 certificates by default, all when expanded
   const displayedCertificates = showAll ? certificates : certificates.slice(0, 4);
   // Duplicate list for seamless infinite looping marquee
   const loopedCertificates = [...displayedCertificates, ...displayedCertificates];
+
+  const activeCert = activeIndex !== null ? certificates[activeIndex] : null;
 
   return (
     <section id="certificates" className="px-6 py-28" ref={sectionRef}>
@@ -93,7 +101,7 @@ export default function Certificates() {
                   <CertCard
                     key={`${cert.id}-${index}`}
                     cert={cert}
-                    onOpen={() => setActive(cert)}
+                    onOpen={() => setActiveIndex(certificates.indexOf(cert))}
                     aria-hidden={index >= displayedCertificates.length}
                   />
                 ))}
@@ -114,22 +122,29 @@ export default function Certificates() {
         )}
       </div>
 
-      <CertModal cert={active} onClose={() => setActive(null)} />
+      <CertModal
+        cert={activeCert}
+        index={activeIndex}
+        onClose={() => setActiveIndex(null)}
+        onPrevious={() => setActiveIndex((prev) => prev === null ? null : (prev - 1 + certificates.length) % certificates.length)}
+        onNext={() => setActiveIndex((prev) => prev === null ? null : (prev + 1) % certificates.length)}
+        total={certificates.length}
+      />
     </section>
   );
 }
 
-function CertCard({ cert, onOpen, ariaHidden }: { cert: Certificate; onOpen: () => void; ariaHidden?: boolean }) {
+function CertCard({ cert, onOpen, ariaHidden }: { cert: Certificate; onOpen: (index: number) => void; ariaHidden?: boolean }) {
   return (
     <motion.div
       whileHover={{ y: -6, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       className="group relative flex w-[310px] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl transition-all duration-300 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400/50"
-      onClick={onOpen}
+      onClick={() => onOpen(certificates.indexOf(cert))}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onOpen();
+          onOpen(certificates.indexOf(cert));
         }
       }}
       aria-hidden={ariaHidden ? 'true' : undefined}
@@ -183,7 +198,21 @@ function CertCard({ cert, onOpen, ariaHidden }: { cert: Certificate; onOpen: () 
   );
 }
 
-function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () => void }) {
+function CertModal({
+  cert,
+  index,
+  onClose,
+  onPrevious,
+  onNext,
+  total,
+}: {
+  cert: Certificate | null;
+  index: number | null;
+  onClose: () => void;
+  onPrevious: () => void;
+  onNext: () => void;
+  total: number;
+}) {
   return (
     <AnimatePresence>
       {cert && (
@@ -203,11 +232,11 @@ function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () =>
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.94, opacity: 0, y: 20 }}
             transition={{ duration: 0.25 }}
-            className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl"
+            className="relative max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-5">
-              <div>
+              <div className="flex-1">
                 <div className="mb-1 flex items-center gap-2 text-xs uppercase tracking-widest text-emerald-300">
                   <Award className="h-3.5 w-3.5" />
                   {cert.issuer}
@@ -218,11 +247,16 @@ function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () =>
                     <Calendar className="h-3.5 w-3.5" />
                     {cert.date}
                   </span>
+                  {index !== null && (
+                    <span className="text-white/40">
+                      • {index + 1} of {total}
+                    </span>
+                  )}
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="rounded-lg p-2 text-white/50 hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-white/50 hover:bg-white/10 hover:text-white transition-colors"
                 aria-label="Close certificate"
               >
                 <X className="h-5 w-5" />
@@ -236,7 +270,7 @@ function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () =>
                   <img
                     src={cert.image}
                     alt={`${cert.title} certificate`}
-                    className="mx-auto max-h-[70vh] w-auto object-contain"
+                    className="mx-auto max-h-[55vh] w-auto object-contain"
                   />
                 </div>
               )}
@@ -255,6 +289,41 @@ function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () =>
                   <ExternalLink className="h-4 w-4" />
                   Verify credential
                 </a>
+              )}
+
+              {/* Navigation arrows */}
+              {total > 1 && (
+                <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/[0.06]">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onPrevious();
+                    }}
+                    className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white transition-all focus-visible:ring-2 focus-visible:ring-white/20"
+                    aria-label="Previous certificate"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Previous
+                  </motion.button>
+                  <span className="text-xs text-white/40">
+                    Use arrow keys to navigate
+                  </span>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onNext();
+                    }}
+                    className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white transition-all focus-visible:ring-2 focus-visible:ring-white/20"
+                    aria-label="Next certificate"
+                  >
+                    Next
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.button>
+                </div>
               )}
             </div>
           </motion.div>
