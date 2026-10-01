@@ -192,51 +192,79 @@ function ProjectCard({
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.08 + 0.2 }}
+      whileHover={{ y: -8 }}
     >
       <GlowCard
         glow={colors.accent}
         onClick={onClick}
-        className="group h-full cursor-pointer p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.16]"
+        className="group h-full cursor-pointer p-5 transition-all duration-300 hover:border-white/[0.20] hover:shadow-2xl hover:shadow-black/30"
       >
         <div className="relative z-10">
-          <ProjectPreview project={project} colorIndex={colorIndex} />
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          >
+            <ProjectPreview project={project} colorIndex={colorIndex} />
+          </motion.div>
 
           <div className="mt-5 flex items-start justify-between gap-4">
             <div>
-              <h3 className="font-display mb-2 text-2xl font-semibold text-white">{project.name}</h3>
+              <motion.h3
+                className="font-display mb-2 text-2xl font-semibold text-white group-hover:text-purple-300 transition-colors"
+                whileHover={{ x: 5 }}
+              >
+                {project.name}
+              </motion.h3>
               <p className="max-w-xl text-base leading-relaxed text-white/66">{project.description}</p>
             </div>
             <div className="flex shrink-0 gap-2">
               {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="rounded-lg p-2 text-white/50 hover:bg-white/[0.08] hover:text-white" aria-label={`${project.name} GitHub`}>
+                <motion.a
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  href={project.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="rounded-lg p-2 text-white/50 hover:bg-white/[0.08] hover:text-white transition-all" aria-label={`${project.name} GitHub`}>
                   <Github className="h-4 w-4" />
-                </a>
+                </motion.a>
               )}
               {project.demo && (
-                <a href={project.demo} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="rounded-lg p-2 text-white/50 hover:bg-white/[0.08] hover:text-white" aria-label={`${project.name} demo`}>
+                <motion.a
+                  whileHover={{ scale: 1.15, rotate: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                  href={project.demo} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="rounded-lg p-2 text-white/50 hover:bg-white/[0.08] hover:text-white transition-all" aria-label={`${project.name} demo`}>
                   <ExternalLink className="h-4 w-4" />
-                </a>
+                </motion.a>
               )}
             </div>
           </div>
 
-          <div className="mt-5 rounded-xl border border-white/[0.07] bg-black/20 p-4 backdrop-blur-xl">
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            className="mt-5 rounded-xl border border-white/[0.07] bg-black/20 p-4 backdrop-blur-xl transition-all"
+          >
             <div className="font-tech mb-1 text-[12px] uppercase tracking-[0.2em] text-white/50">Engineering challenge</div>
             <p className="text-base leading-relaxed text-white/76">{project.challenge}</p>
-          </div>
+          </motion.div>
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {project.tags.map((tag) => (
-              <span key={tag} className="font-tech rounded-full border border-white/[0.09] bg-white/[0.045] px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-white/62">
+              <motion.span
+                key={tag}
+                whileHover={{ scale: 1.1, backgroundColor: `${colors.accent}20` }}
+                className="font-tech rounded-full border border-white/[0.09] bg-white/[0.045] px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-white/62 transition-all cursor-default"
+              >
                 {tag}
-              </span>
+              </motion.span>
             ))}
             <div className="flex-1" />
             {project.metrics.slice(0, 2).map(m => (
-              <div key={m.label} className="text-right">
+              <motion.div
+                key={m.label}
+                whileHover={{ scale: 1.05 }}
+                className="text-right"
+              >
                 <span className="text-sm font-semibold" style={{ color: colors.accent }}>{m.value}</span>
                 <span className="ml-1 text-[11px] text-white/45">{m.label}</span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

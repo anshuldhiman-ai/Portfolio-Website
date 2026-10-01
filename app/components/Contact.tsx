@@ -147,7 +147,8 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden"
+          whileHover={{ y: -4 }}
+          className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden hover:border-white/[0.12] transition-all duration-300"
         >
           <div className="p-6 sm:p-8">
             <AnimatePresence mode="wait">

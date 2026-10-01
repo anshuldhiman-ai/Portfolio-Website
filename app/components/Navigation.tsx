@@ -57,19 +57,21 @@ export default function Navigation() {
     <header className="fixed inset-x-0 top-0 z-40">
       <div className="h-[2px] bg-white/[0.04]">
         <motion.div
-          className="h-full bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-300"
+          className="h-full bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-300 shadow-lg shadow-purple-500/30"
           style={{ width: `${progress}%` }}
+          transition={{ duration: 0.1 }}
         />
       </div>
 
       <motion.nav
         animate={{
           y: compact ? 10 : 16,
-          backgroundColor: compact ? 'rgba(14,14,18,0.82)' : 'rgba(14,14,18,0.42)',
-          borderColor: compact ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)',
+          backgroundColor: compact ? 'rgba(14,14,18,0.92)' : 'rgba(14,14,18,0.52)',
+          borderColor: compact ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.10)',
+          boxShadow: compact ? '0 8px 32px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.2)',
         }}
-        transition={{ duration: 0.25 }}
-        className="mx-auto flex w-[calc(100%-24px)] max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 shadow-lg shadow-black/20 backdrop-blur-2xl sm:w-[calc(100%-40px)]"
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="mx-auto flex w-[calc(100%-24px)] max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-3xl sm:w-[calc(100%-40px)]"
       >
         <button
           onClick={() => scrollTo('home')}
@@ -92,39 +94,43 @@ export default function Navigation() {
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
-              <button
+              <motion.button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className="relative px-3 py-2 text-sm font-medium text-white/58 hover:text-white"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative px-3 py-2 text-sm font-medium text-white/58 hover:text-white transition-colors"
               >
                 <span className="relative z-10">{item.label}</span>
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute inset-x-3 bottom-1 h-px bg-white"
+                    className="absolute inset-x-3 bottom-1 h-px bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-300"
                     transition={{ type: 'spring', damping: 30, stiffness: 300 }}
                   />
                 )}
-              </button>
+              </motion.button>
             );
           })}
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
           {profileLinks.map((link) => (
-            <a
+            <motion.a
               key={link.label}
               href={link.href}
               target={link.download ? undefined : '_blank'}
               rel={link.download ? undefined : 'noopener noreferrer'}
               download={link.download}
-              className="group flex h-9 items-center gap-2 rounded-full border border-white/10 px-3 text-sm font-medium text-white/72 hover:border-white/20 hover:bg-white/[0.06] hover:text-white focus-visible:ring-2 focus-visible:ring-white/20"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group flex h-9 items-center gap-2 rounded-full border border-white/10 px-3 text-sm font-medium text-white/72 hover:border-white/20 hover:bg-white/[0.06] hover:text-white focus-visible:ring-2 focus-visible:ring-white/20 transition-all"
               aria-label={link.label}
               title={link.label}
             >
               <link.icon className="h-4 w-4" />
               <span className="hidden xl:inline">{link.label}</span>
-            </a>
+            </motion.a>
           ))}
         </div>
       </motion.nav>

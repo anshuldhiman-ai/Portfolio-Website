@@ -104,7 +104,7 @@ export default function About() {
               className="mb-6 text-4xl font-semibold tracking-tight sm:text-5xl"
             >
               <span className="text-white">Who I </span>
-              <span className="font-handlee text-purple-300">am</span>
+              <span className="font-handlee text-purple-300 hover:text-cyan-300 transition-colors duration-300">am</span>
             </motion.h2>
 
             <motion.div
@@ -133,8 +133,9 @@ export default function About() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <GlowCard glow={item.glow} className="h-full p-4">
+                  <GlowCard glow={item.glow} className="h-full p-4 transition-all duration-300 hover:shadow-2xl hover:shadow-black/30">
                     <div className="relative z-10">
                       <div className="font-tech mb-1 text-[11px] uppercase tracking-[0.2em] text-white/50">{item.label}</div>
                       <div className="text-base text-white/78">{item.value}</div>
@@ -149,16 +150,28 @@ export default function About() {
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.25 }}
+            whileHover={{ y: -4 }}
           >
-            <GlowCard glow="#34d399" className="h-full p-6">
+            <GlowCard glow="#34d399" className="h-full p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-black/30">
               <div className="relative z-10">
                 <div className="font-tech mb-5 text-sm uppercase tracking-[0.24em] text-white/50">In one screen</div>
                 <div className="space-y-3">
-                  {proof.map((item) => (
-                    <div key={item} className="flex gap-3 rounded-xl border border-white/[0.07] bg-black/25 p-4 backdrop-blur-xl">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300" />
+                  {proof.map((item, i) => (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                      whileHover={{ x: 5 }}
+                      className="flex gap-3 rounded-xl border border-white/[0.07] bg-black/25 p-4 backdrop-blur-xl transition-all"
+                    >
+                      <motion.span
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300"
+                      />
                       <span className="text-base leading-relaxed text-white/74">{item}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>

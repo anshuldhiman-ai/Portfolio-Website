@@ -54,23 +54,39 @@ export default function Skills() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.45, delay: 0.08 * idx }}
+                whileHover={{ y: -8 }}
               >
-                <GlowCard glow={style.glow} className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.16]">
+                <GlowCard glow={style.glow} className="h-full p-6 transition-all duration-300 hover:border-white/[0.20] hover:shadow-2xl hover:shadow-black/30">
                   <div className="relative z-10">
-                    <div className="mb-5 flex items-start gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-200/15 bg-cyan-200/10 text-cyan-200">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      className="mb-5 flex items-start gap-4"
+                    >
+                      <motion.div
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.6 }}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-200/15 bg-cyan-200/10 text-cyan-200"
+                      >
                         <Icon className="h-5 w-5" />
-                      </div>
+                      </motion.div>
                       <div>
-                        <h3 className="font-display text-2xl font-semibold text-white">{group.title}</h3>
+                        <h3 className="font-display text-2xl font-semibold text-white group-hover:text-purple-300 transition-colors">{group.title}</h3>
                         <p className="mt-1 text-base leading-relaxed text-white/60">{group.summary}</p>
                       </div>
-                    </div>
+                    </motion.div>
                     <div className="flex flex-wrap gap-2">
-                      {group.skills.map((skill) => (
-                        <span key={skill} className="rounded-lg border border-white/[0.08] bg-black/25 px-2.5 py-1.5 text-sm text-white/72 backdrop-blur-xl">
+                      {group.skills.map((skill, skillIdx) => (
+                        <motion.span
+                          key={skill}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                          transition={{ duration: 0.3, delay: 0.08 * idx + skillIdx * 0.05 }}
+                          whileHover={{ scale: 1.1, backgroundColor: `${style.glow}25` }}
+                          className="rounded-lg border border-white/[0.08] bg-black/25 px-2.5 py-1.5 text-sm text-white/72 backdrop-blur-xl transition-all cursor-default"
+                        >
                           {skill}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
@@ -84,23 +100,39 @@ export default function Skills() {
             initial={{ opacity: 0, y: 28 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, delay: 0.08 * usedInProjects.length }}
+            whileHover={{ y: -8 }}
           >
-            <GlowCard glow="#a78bfa" className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.16]">
+            <GlowCard glow="#a78bfa" className="h-full p-6 transition-all duration-300 hover:border-white/[0.20] hover:shadow-2xl hover:shadow-black/30">
               <div className="relative z-10">
-                <div className="mb-5 flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-purple-200/15 bg-purple-200/10 text-purple-200">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="mb-5 flex items-start gap-4"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-purple-200/15 bg-purple-200/10 text-purple-200"
+                  >
                     <GraduationCap className="h-5 w-5" />
-                  </div>
+                  </motion.div>
                   <div>
-                    <h3 className="font-display text-2xl font-semibold text-white">Studying now</h3>
+                    <h3 className="font-display text-2xl font-semibold text-white group-hover:text-purple-300 transition-colors">Studying now</h3>
                     <p className="mt-1 text-base leading-relaxed text-white/60">In progress — not in any shipped project yet.</p>
                   </div>
-                </div>
+                </motion.div>
                 <div className="flex flex-wrap gap-2">
-                  {currentlyLearning.map((skill) => (
-                    <span key={skill} className="rounded-lg border border-purple-300/[0.15] bg-purple-300/[0.05] px-2.5 py-1.5 text-sm text-purple-100/70 backdrop-blur-xl">
+                  {currentlyLearning.map((skill, skillIdx) => (
+                    <motion.span
+                      key={skill}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ duration: 0.3, delay: 0.08 * usedInProjects.length + skillIdx * 0.05 }}
+                      whileHover={{ scale: 1.1, backgroundColor: 'rgba(167, 139, 250, 0.25)' }}
+                      className="rounded-lg border border-purple-300/[0.15] bg-purple-300/[0.05] px-2.5 py-1.5 text-sm text-purple-100/70 backdrop-blur-xl transition-all cursor-default"
+                    >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
