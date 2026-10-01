@@ -227,21 +227,41 @@ function CertModal({
           aria-modal="true"
           aria-label={cert.title}
         >
+          {/* Left Navigation Button */}
+          {total > 1 && (
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              whileHover={{ scale: 1.1, x: -5 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onPrevious();
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white/80 hover:bg-black/80 hover:text-white hover:border-white/40 transition-all shadow-2xl backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-white/30"
+              aria-label="Previous certificate"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </motion.button>
+          )}
+
           <motion.div
             initial={{ scale: 0.94, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.94, opacity: 0, y: 20 }}
             transition={{ duration: 0.25 }}
-            className="relative max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl"
+            className="relative h-[90vh] w-full max-w-5xl rounded-2xl border border-white/[0.1] bg-[#121216] shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-5">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 py-4 shrink-0">
               <div className="flex-1">
                 <div className="mb-1 flex items-center gap-2 text-xs uppercase tracking-widest text-emerald-300">
                   <Award className="h-3.5 w-3.5" />
                   {cert.issuer}
                 </div>
-                <h3 className="text-2xl font-semibold text-white">{cert.title}</h3>
+                <h3 className="text-xl font-semibold text-white">{cert.title}</h3>
                 <div className="mt-2 flex items-center gap-3 text-xs text-white/55">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5" />
@@ -263,70 +283,62 @@ function CertModal({
               </button>
             </div>
 
-            <div className="space-y-6 p-6">
+            {/* Certificate Image - Takes remaining space */}
+            <div className="flex-1 overflow-hidden p-6 flex items-center justify-center">
               {cert.image && (
-                <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-black/40">
+                <div className="relative w-full h-full flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={cert.image}
                     alt={`${cert.title} certificate`}
-                    className="mx-auto max-h-[55vh] w-auto object-contain"
+                    className="max-w-full max-h-full object-contain rounded-xl"
                   />
                 </div>
               )}
+            </div>
 
-              {cert.description && (
-                <p className="leading-relaxed text-white/75">{cert.description}</p>
-              )}
-
-              {cert.verifyUrl && (
-                <a
-                  href={cert.verifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-black hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-white/30"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Verify credential
-                </a>
-              )}
-
-              {/* Navigation arrows */}
-              {total > 1 && (
-                <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/[0.06]">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onPrevious();
-                    }}
-                    className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white transition-all focus-visible:ring-2 focus-visible:ring-white/20"
-                    aria-label="Previous certificate"
+            {/* Footer with actions */}
+            <div className="flex items-center justify-between gap-4 border-t border-white/[0.06] px-6 py-4 shrink-0">
+              <div className="flex items-center gap-3">
+                {cert.verifyUrl && (
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-white/30 transition-all"
                   >
-                    <ChevronLeft className="h-4 w-4" />
-                    Previous
-                  </motion.button>
-                  <span className="text-xs text-white/40">
-                    Use arrow keys to navigate
-                  </span>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onNext();
-                    }}
-                    className="flex items-center gap-2 rounded-full border border-white/12 px-4 py-2.5 text-sm font-medium text-white/75 hover:border-white/22 hover:bg-white/[0.05] hover:text-white transition-all focus-visible:ring-2 focus-visible:ring-white/20"
-                    aria-label="Next certificate"
-                  >
-                    Next
-                    <ChevronRight className="h-4 w-4" />
-                  </motion.button>
-                </div>
-              )}
+                    <ExternalLink className="h-4 w-4" />
+                    Verify
+                  </a>
+                )}
+                {cert.description && (
+                  <p className="text-sm text-white/60 line-clamp-1 max-w-md">{cert.description}</p>
+                )}
+              </div>
+              <span className="text-xs text-white/40">
+                Press ← → to navigate
+              </span>
             </div>
           </motion.div>
+
+          {/* Right Navigation Button */}
+          {total > 1 && (
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              whileHover={{ scale: 1.1, x: 5 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onNext();
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white/80 hover:bg-black/80 hover:text-white hover:border-white/40 transition-all shadow-2xl backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-white/30"
+              aria-label="Next certificate"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </motion.button>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
